@@ -1,3 +1,14 @@
 <resources>
-    <string name="app_name">NotesApp</string>
+    <string name="app_name">Приложение заметок</string>
+    <string name="note1">Запись 1</string>
+    <string name="note2">Запись 2</string>
+    <string name="note3">Запись 3</string>
+    <string name="note4">Запись 4</string>
+    <string name="note5">Запись 5</string>
+    <string name="note6">Запись 6</string>
+    <string name="note7">Запись 7</string>
+    <string name="note8">Запись 8</string>
+    <string name="note9">Запись 9</string>
+    <string name="fish_text">Не следует, однако, забывать, что реализация намеченных плановых заданий однозначно определяет каждого участника как способного принимать собственные решения касаемо новых предложений. А также явные признаки победы институционализации являются только методом политического участия и своевременно верифицированы. Прежде всего, перспективное планирование представляет собой интересный эксперимент проверки прогресса профессионального сообщества.</string>
+    <string name="simple_data">02.12.2021</string>
 </resources>
