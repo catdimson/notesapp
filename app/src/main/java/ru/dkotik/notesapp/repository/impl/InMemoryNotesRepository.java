@@ -1,4 +1,4 @@
-package ru.dkotik.notesapp.repository;
+package ru.dkotik.notesapp.repository.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,6 +6,7 @@ import java.util.List;
 
 import ru.dkotik.notesapp.R;
 import ru.dkotik.notesapp.model.Note;
+import ru.dkotik.notesapp.repository.NotesRepository;
 
 public class InMemoryNotesRepository implements NotesRepository {
 

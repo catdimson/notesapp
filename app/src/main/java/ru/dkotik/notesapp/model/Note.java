@@ -17,19 +17,14 @@ public class Note implements Parcelable {
     @StringRes
     private final int date;
 
-//    @DrawableRes
-//    private final int image;
-
-    public Note(int title, int date/*int image*/, int description) {
+    public Note(int title, int date, int description) {
         this.title = title;
-//        this.image = image;
         this.date = date;
         this.description = description;
     }
 
     protected Note(Parcel in) {
         title = in.readInt();
-        //image = in.readInt();
         date = in.readInt();
         description = in.readInt();
     }
@@ -50,13 +45,9 @@ public class Note implements Parcelable {
         return title;
     }
 
-//    public int getImage() {
-//        return image;
-//    }
     public int getDate() {
         return date;
     }
-
 
     public int getDescription() {
         return description;
@@ -70,7 +61,6 @@ public class Note implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(title);
-        //dest.writeInt(image);
         dest.writeInt(date);
         dest.writeInt(description);
     }

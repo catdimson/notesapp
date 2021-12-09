@@ -1,22 +1,21 @@
 package ru.dkotik.notesapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentResultListener;
-
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 import ru.dkotik.notesapp.model.Note;
+import ru.dkotik.notesapp.view.CustomActions;
 import ru.dkotik.notesapp.view.detail.NoteDetailFragment;
-import ru.dkotik.notesapp.view.detail.NoteDetailsActivity;
 import ru.dkotik.notesapp.view.list.impl.NotesListFragment;
 
-public class MainActivity extends AppCompatActivity {//implements NotesListFragment.OnNoteClicked {
+public class MainActivity extends AppCompatActivity {
 
     private static final String ARG_NOTE = "ARG_NOTE";
-
     private Note selectedNote;
 
     @Override
@@ -24,32 +23,63 @@ public class MainActivity extends AppCompatActivity {//implements NotesListFragm
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        FragmentManager fm = getSupportFragmentManager();
+
         if (savedInstanceState != null && savedInstanceState.containsKey(ARG_NOTE)) {
             selectedNote = savedInstanceState.getParcelable(ARG_NOTE);
 
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                showDetails();
+                fm.beginTransaction()
+                        .replace(R.id.details_container, NoteDetailFragment.newInstance(selectedNote))
+                        .replace(R.id.fragment_container, new NotesListFragment())
+                        .commit();
+            } else {
+                fm.beginTransaction()
+                        .replace(R.id.fragment_container, NoteDetailFragment.newInstance(selectedNote))
+                        .commit();
             }
         }
 
-        getSupportFragmentManager().setFragmentResultListener(NotesListFragment.RESULT_KEY,this,
-                new FragmentResultListener() {
-                    @Override
-                    public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                        selectedNote = result.getParcelable(NotesListFragment.ARG_NOTE);
 
-                        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                            showDetails();
-                        } else {
-                            // иначе открываем просто новый экран
-                            Intent intent = new Intent(MainActivity.this, NoteDetailsActivity.class);
-                            intent.putExtra(NoteDetailsActivity.EXTRA_NOTE, selectedNote);
-                            startActivity(intent);
-                        }
-                    }
+        fm.setFragmentResultListener(NotesListFragment.RESULT_KEY,this, (requestKey, result) -> {
+                selectedNote = result.getParcelable(NotesListFragment.ARG_NOTE);
+
+                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                        fm.beginTransaction()
+                                .replace(R.id.details_container, NoteDetailFragment.newInstance(selectedNote))
+                                .commit();
+                } else {
+                        fm.beginTransaction()
+                                .replace(R.id.fragment_container, NoteDetailFragment.newInstance(selectedNote))
+                                .commit();
                 }
+            }
+        );
+
+        fm.setFragmentResultListener(NoteDetailFragment.KEY_GO_TO_MAIN,this, (requestKey, result) -> {
+                selectedNote = result.getParcelable(NotesListFragment.ARG_NOTE);
+
+                fm.beginTransaction()
+                        .replace(R.id.fragment_container, new NotesListFragment())
+                        .commit();
+            }
         );
     }
+
+    @Override
+    public void onBackPressed() {
+        FragmentManager fm = getSupportFragmentManager();
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            Fragment fragment = fm.findFragmentById(R.id.fragment_container);
+            if (!(fragment instanceof CustomActions) || !((CustomActions) fragment).onBackPressed()) {
+                super.onBackPressed();
+            }
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
@@ -59,21 +89,4 @@ public class MainActivity extends AppCompatActivity {//implements NotesListFragm
             outState.putParcelable(ARG_NOTE, selectedNote);
         }
     }
-
-    private void showDetails() {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(NoteDetailFragment.ARG_NOTE, selectedNote);
-        getSupportFragmentManager()
-                .setFragmentResult(NoteDetailFragment.KEY_RESULT, bundle);
-//        getSupportFragmentManager()
-//                .beginTransaction()
-//                .replace(R.id.details_container, NoteDetailFragment.newInstance(selectedNote))
-//                .commit();
-    }
-//    @Override
-//    public void onNoteClicked(Note note) {
-//        Intent intent = new Intent(this, NoteDetailsActivity.class);
-//        intent.putExtra(NoteDetailsActivity.EXTRA_NOTE, note);
-//        startActivity(intent);
-//    }
 }
