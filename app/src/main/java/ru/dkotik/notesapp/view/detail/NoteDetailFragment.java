@@ -15,6 +15,9 @@ import ru.dkotik.notesapp.model.Note;
 import ru.dkotik.notesapp.view.list.impl.NotesListFragment;
 
 public class NoteDetailFragment extends Fragment {
+
+    // здесь будет задача по разработке меню
+
     public static final String ARG_NOTE = "ARG_NOTE";
     public static final String KEY_RESULT = "NoteDetailFragment_KEY_RESULT";
     private TextView noteTitle;
