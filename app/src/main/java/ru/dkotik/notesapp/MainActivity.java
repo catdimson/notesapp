@@ -24,6 +24,9 @@ public class MainActivity extends AppCompatActivity {//implements NotesListFragm
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Здесь будет решения для 9 задания
+        System.out.println("Здесь будет решения для 9 задания");
+
         if (savedInstanceState != null && savedInstanceState.containsKey(ARG_NOTE)) {
             selectedNote = savedInstanceState.getParcelable(ARG_NOTE);
 
