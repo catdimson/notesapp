@@ -2,25 +2,29 @@ package ru.dkotik.notesapp.view.detail;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentResultListener;
+import androidx.fragment.app.FragmentManager;
 
+import ru.dkotik.notesapp.view.CustomActions;
 import ru.dkotik.notesapp.R;
 import ru.dkotik.notesapp.model.Note;
 import ru.dkotik.notesapp.view.list.impl.NotesListFragment;
 
-public class NoteDetailFragment extends Fragment {
+public class NoteDetailFragment extends Fragment implements CustomActions {
+
     public static final String ARG_NOTE = "ARG_NOTE";
     public static final String KEY_RESULT = "NoteDetailFragment_KEY_RESULT";
+    public static final String KEY_GO_TO_MAIN = "NoteDetailFragment_KEY_GO_TO_MAIN";
+
     private TextView noteTitle;
-//    private ImageView noteImage;
     private TextView noteDate;
     private TextView noteDescription;
+    private FragmentManager fm;
+    private Note note;
 
     public static NoteDetailFragment newInstance(Note note) {
         NoteDetailFragment fragment = new NoteDetailFragment();
@@ -30,7 +34,6 @@ public class NoteDetailFragment extends Fragment {
         return fragment;
     }
 
-    // LayoutInflater - вызывается за нас с помощью "чудо-метода"
     public NoteDetailFragment() {
         super(R.layout.fragment_note_detail);
     }
@@ -40,34 +43,39 @@ public class NoteDetailFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         noteTitle = view.findViewById(R.id.note_title);
-//        noteImage = view.findViewById(R.id.note_image);
         noteDate = view.findViewById(R.id.note_date);
         noteDescription = view.findViewById(R.id.note_description);
-
 
         if (getArguments() != null && getArguments().containsKey(ARG_NOTE)) {
             displayDetails(requireArguments().getParcelable(ARG_NOTE));
         }
 
-        getParentFragmentManager()
-                .setFragmentResultListener(KEY_RESULT, getViewLifecycleOwner(), new FragmentResultListener() {
-                    @Override
-                    public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                        Note note = result.getParcelable(NotesListFragment.ARG_NOTE);
-                        displayDetails(note);
-                    }
-                });
-    }
+        fm = getParentFragmentManager();
 
-    private void displayDetails(Note note) {
-        noteTitle.setText(note.getTitle());
-//        noteImage.setImageResource(note.getImage());
-        noteDate.setText(note.getDate());
-        noteDescription.setText(note.getDescription());
+        fm.setFragmentResultListener(KEY_RESULT, getViewLifecycleOwner(), (requestKey, result) -> {
+                note = result.getParcelable(NotesListFragment.ARG_NOTE);
+                displayDetails(note);
+        });
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+    }
+
+    private void displayDetails(Note note) {
+        if (note != null) {
+            noteTitle.setText(note.getTitle());
+            noteDate.setText(note.getDate());
+            noteDescription.setText(note.getDescription());
+        }
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        Bundle data = new Bundle();
+        data.putParcelable(ARG_NOTE, note);
+        fm.setFragmentResult(KEY_GO_TO_MAIN, data);
+        return true;
     }
 }
