@@ -17,4 +17,7 @@
     <string name="about">О приложении</string>
     <string name="open_drawer_description">description1</string>
     <string name="navigate_up_description">description 2</string>
+    <string name="message">Вы действительно хотите выйти?</string>
+    <string name="ok">Да</string>
+    <string name="no">Нет</string>
 </resources>
