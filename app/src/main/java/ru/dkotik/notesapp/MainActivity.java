@@ -21,6 +21,7 @@ import ru.dkotik.notesapp.view.CustomActions;
 import ru.dkotik.notesapp.view.about.AboutFragment;
 import ru.dkotik.notesapp.view.about.NavDrawerHost;
 import ru.dkotik.notesapp.view.detail.NoteDetailFragment;
+import ru.dkotik.notesapp.view.list.GoOutDialog;
 import ru.dkotik.notesapp.view.list.impl.NotesListFragment;
 
 public class MainActivity extends AppCompatActivity implements NavDrawerHost {
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements NavDrawerHost {
     private static final String ARG_IS_DRAWER = "ARG_IS_DRAWER";
 
     private boolean isDrawer = false;
+    private boolean isGoHomeDialogActive = false;
+    private boolean goOut = false;
     private Note selectedNote;
     private DrawerLayout drawer;
 
@@ -91,6 +94,15 @@ public class MainActivity extends AppCompatActivity implements NavDrawerHost {
             isDrawer = false;
             }
         );
+
+        fm.setFragmentResultListener(GoOutDialog.KEY_RESULT,this, (requestKey, result) -> {
+            if (result.getInt(GoOutDialog.ARG_BUTTON) == -1) {
+                goOut = true;
+                onBackPressed();
+            } else {
+                isGoHomeDialogActive = false;
+            }
+        });
     }
 
     private void configureDrawer(Bundle savedInstanceState) {
@@ -168,10 +180,10 @@ public class MainActivity extends AppCompatActivity implements NavDrawerHost {
             (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && isDrawer)) {
             Fragment fragment = fm.findFragmentById(R.id.fragment_container);
             if (!(fragment instanceof CustomActions) || !((CustomActions) fragment).onBackPressed()) {
-                super.onBackPressed();
+                goOut(fm);
             }
         } else {
-            super.onBackPressed();
+            goOut(fm);
         }
     }
 
@@ -200,5 +212,23 @@ public class MainActivity extends AppCompatActivity implements NavDrawerHost {
 
         toggle.syncState();
 
+    }
+
+    public void goOut(FragmentManager fm) {
+        if (!isGoHomeDialogActive) {
+            isGoHomeDialogActive = true;
+            showDialog(fm);
+        } else {
+            if (goOut) {
+                isGoHomeDialogActive = false;
+                super.onBackPressed();
+            } else {
+                showDialog(fm);
+            }
+        }
+    }
+
+    private void showDialog(FragmentManager fm) {
+        new GoOutDialog().newInstance("Внимание!").show(fm, "GoHomeDialog");
     }
 }
