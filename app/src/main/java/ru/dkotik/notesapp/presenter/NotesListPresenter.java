@@ -3,6 +3,7 @@ package ru.dkotik.notesapp.presenter;
 import java.util.List;
 
 import ru.dkotik.notesapp.model.Note;
+import ru.dkotik.notesapp.repository.Callback;
 import ru.dkotik.notesapp.repository.NotesRepository;
 import ru.dkotik.notesapp.view.list.NotesListView;
 
@@ -16,8 +17,45 @@ public class NotesListPresenter {
         this.repository = repository;
     }
 
-    public void refresh() {
-        List<Note> result = repository.getAllNotes();
-        view.showNotes(result);
+    public void requestNotes() {
+        view.showProgress();
+
+        repository.getAllNotes(new Callback<List<Note>>() {
+            @Override
+            public void onSuccess(List<Note> result) {
+                view.showNotes(result);
+                view.hideProgress();
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                view.hideProgress();
+            }
+        });
+    }
+
+    public void onNoteAdded(Note note) {
+        view.onNoteAdded(note);
+    }
+
+    public void removeNote(Note selectedNote) {
+        view.showProgress();
+
+        repository.delete(selectedNote, new Callback<Void>() {
+            @Override
+            public void onSuccess(Void result) {
+                view.hideProgress();
+                view.onNoteRemoved(selectedNote);
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                view.hideProgress();
+            }
+        });
+    }
+
+    public void onUpdateAdded(Note note) {
+        view.onNoteUpdated(note);
     }
 }

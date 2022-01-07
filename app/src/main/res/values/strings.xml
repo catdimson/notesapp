@@ -20,4 +20,10 @@
     <string name="message">Вы действительно хотите выйти?</string>
     <string name="ok">Да</string>
     <string name="no">Нет</string>
+    <string name="btn_save">Сохранить</string>
+    <string name="hint_title">Заголовок</string>
+    <string name="hint_description">Содержимое заметки</string>
+    <string name="action_update">Редактировать</string>
+    <string name="action_delete">Удалить</string>
+    <string name="btn_update">Обновить</string>
 </resources>

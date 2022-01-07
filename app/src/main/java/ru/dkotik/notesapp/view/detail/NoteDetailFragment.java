@@ -66,7 +66,7 @@ public class NoteDetailFragment extends Fragment implements CustomActions {
     private void displayDetails(Note note) {
         if (note != null) {
             noteTitle.setText(note.getTitle());
-            noteDate.setText(note.getDate());
+            noteDate.setText(note.getTime().toString());
             noteDescription.setText(note.getDescription());
         }
     }

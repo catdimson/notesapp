@@ -6,27 +6,27 @@ import android.os.Parcelable;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.StringRes;
 
+import java.sql.Time;
+import java.util.Date;
+
 public class Note implements Parcelable {
 
-    @StringRes
-    private final int title;
+    private String id;
+    private String title;
+    private String description;
+    private String time;
 
-    @StringRes
-    private final int description;
-
-    @StringRes
-    private final int date;
-
-    public Note(int title, int date, int description) {
+    public Note(String id, String title, String time, String description) {
+        this.id = id;
         this.title = title;
-        this.date = date;
+        this.time = time;
         this.description = description;
     }
 
     protected Note(Parcel in) {
-        title = in.readInt();
-        date = in.readInt();
-        description = in.readInt();
+        id = in.readString();
+        title = in.readString();
+        description = in.readString();
     }
 
     public static final Creator<Note> CREATOR = new Creator<Note>() {
@@ -41,15 +41,15 @@ public class Note implements Parcelable {
         }
     };
 
-    public int getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    public int getDate() {
-        return date;
+    public String getTime() {
+        return time;
     }
 
-    public int getDescription() {
+    public String getDescription() {
         return description;
     }
 
@@ -60,8 +60,24 @@ public class Note implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(title);
-        dest.writeInt(date);
-        dest.writeInt(description);
+        dest.writeString(id);
+        dest.writeString(title);
+        dest.writeString(description);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }
