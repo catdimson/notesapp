@@ -2,14 +2,17 @@ package ru.dkotik.notesapp.repository;
 
 import java.util.List;
 
+import ru.dkotik.notesapp.repository.Callback;
 import ru.dkotik.notesapp.model.Note;
 
 public interface NotesRepository {
 
-    List<Note> getAllNotes();
+    void getAllNotes(Callback<List<Note>> callback);
 
-    void addNote(Note note);
+    void save(String title, String description, Callback<Note> callback);
 
-    void removeNote(Note note);
+    void update(String noteId, String title, String description, Callback<Note> callback);
+
+    void delete(Note note, Callback<Void> callback);
 
 }

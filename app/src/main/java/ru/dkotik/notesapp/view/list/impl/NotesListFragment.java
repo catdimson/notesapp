@@ -2,18 +2,22 @@ package ru.dkotik.notesapp.view.list.impl;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.List;
 
@@ -21,6 +25,9 @@ import ru.dkotik.notesapp.R;
 import ru.dkotik.notesapp.model.Note;
 import ru.dkotik.notesapp.presenter.NotesListPresenter;
 import ru.dkotik.notesapp.repository.impl.InMemoryNotesRepository;
+import ru.dkotik.notesapp.view.actions.AddNoteBottomSheetDialogFragment;
+import ru.dkotik.notesapp.view.actions.AddNotePresenter;
+import ru.dkotik.notesapp.view.actions.UpdateNotePresenter;
 import ru.dkotik.notesapp.view.list.NotesAdapter;
 import ru.dkotik.notesapp.view.list.NotesListView;
 
@@ -29,23 +36,30 @@ public class NotesListFragment extends Fragment implements NotesListView {
     public static final String ARG_NOTE = "ARG_NOTE";
     public static final String RESULT_KEY = "NotesListFragment_RESULT";
 
+    private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView notesContainer;
     private NotesListPresenter presenter;
     private NotesAdapter adapter;
+    private ProgressBar progressBar;
+    private Note selectedNote;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new NotesListPresenter(this, new InMemoryNotesRepository());
-        adapter = new NotesAdapter();
+        presenter = new NotesListPresenter(this, InMemoryNotesRepository.INSTANCE);
+        adapter = new NotesAdapter(this);
 
         adapter.setOnClick(new NotesAdapter.OnClick() {
             @Override
             public void onClick(Note note) {
-                //Toast.makeText(requireContext(), note.getTitle(), Toast.LENGTH_SHORT).show();
                 Bundle data = new Bundle();
                 data.putParcelable(ARG_NOTE, note);
                 getParentFragmentManager().setFragmentResult(RESULT_KEY, data);
+            }
+
+            @Override
+            public void onLongClick(Note note) {
+                selectedNote = note;
             }
         });
     }
@@ -59,34 +73,101 @@ public class NotesListFragment extends Fragment implements NotesListView {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        progressBar = view.findViewById(R.id.progress);
         notesContainer = view.findViewById(R.id.notes_container);
 
         notesContainer.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         notesContainer.setAdapter(adapter);
 
-        presenter.refresh();
+        view.findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddNoteBottomSheetDialogFragment.addInstance()
+                        .show(getParentFragmentManager(), AddNoteBottomSheetDialogFragment.TAG);
+            }
+        });
+
+        presenter.requestNotes();
+        getParentFragmentManager().setFragmentResultListener(AddNotePresenter.KEY, getViewLifecycleOwner(), new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                Note note = result.getParcelable(AddNotePresenter.ARG_NOTE);
+
+                presenter.onNoteAdded(note);
+            }
+        });
+        getParentFragmentManager().setFragmentResultListener(UpdateNotePresenter.KEY, getViewLifecycleOwner(), new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                Note note = result.getParcelable(UpdateNotePresenter.ARG_NOTE);
+
+                presenter.onUpdateAdded(note);
+            }
+        });
     }
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public void showNotes(List<Note> notes) {
-
         adapter.setData(notes);
-        adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged(); // полностью всё перериовать без анимашки
+    }
 
-//        for (Note note : notes) {
-//            View itemView = LayoutInflater.from(requireContext()).inflate(R.layout.item_note, notesContainer, false);
-//
-//            itemView.setOnClickListener(v -> {
-//                Bundle data = new Bundle();
-//                data.putParcelable(ARG_NOTE, note);
-//                getParentFragmentManager().setFragmentResult(RESULT_KEY, data);
-//            });
-//
-//            TextView noteTitle = itemView.findViewById(R.id.note_title);
-//            noteTitle.setText(note.getTitle());
-//
-//            notesContainer.addView(itemView);
-//        }
+    @Override
+    public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onNoteAdded(Note note) {
+        int index = adapter.addItem(note);
+
+        adapter.notifyItemInserted(index - 1); // добавит анимациюю при добавлении
+
+        notesContainer.smoothScrollToPosition(index - 1);
+    }
+
+    @Override
+    public void onNoteRemoved(Note selectedNote) {
+
+        int index = adapter.removeItem(selectedNote);
+
+        adapter.notifyItemRemoved(index); // добавит анимацию при удалении
+    }
+
+    @Override
+    public void onNoteUpdated(Note note) {
+        int index = adapter.updateItem(selectedNote);
+
+        adapter.notifyItemChanged(index); // добавит анимацию при обновлении
+    }
+
+    @Override
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        MenuInflater menuInflater = requireActivity().getMenuInflater();
+        menuInflater.inflate(R.menu.notes_list_context_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_delete) {
+            presenter.removeNote(selectedNote);
+            //Toast.makeText(requireContext(), "Удалена " + selectedNote.getTitle(), Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        if (item.getItemId() == R.id.action_update) {
+            //Toast.makeText(requireContext(), "Обновлена " + selectedNote.getTitle(), Toast.LENGTH_SHORT).show();
+            AddNoteBottomSheetDialogFragment.updateInstance(selectedNote)
+                    .show(getParentFragmentManager(), AddNoteBottomSheetDialogFragment.TAG);
+            return true;
+        }
+        return super.onContextItemSelected(item);
     }
 }
