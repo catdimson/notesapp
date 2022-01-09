@@ -15,7 +15,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import ru.dkotik.notesapp.R;
 import ru.dkotik.notesapp.model.Note;
-import ru.dkotik.notesapp.repository.impl.InMemoryNotesRepository;
+import ru.dkotik.notesapp.repository.impl.FirestoreNotesRepository;
 
 public class AddNoteBottomSheetDialogFragment extends BottomSheetDialogFragment implements AddNoteView {
 
@@ -64,10 +64,12 @@ public class AddNoteBottomSheetDialogFragment extends BottomSheetDialogFragment 
         });
 
         if (getArguments() == null) {
-            presenter = new AddNotePresenter(this, InMemoryNotesRepository.INSTANCE);
+            //presenter = new AddNotePresenter(this, InMemoryNotesRepository.INSTANCE);
+            presenter = new AddNotePresenter(this, FirestoreNotesRepository.INSTANCE);
         } else {
             Note note = getArguments().getParcelable(ARG_NOTE);
-            presenter = new UpdateNotePresenter(this, InMemoryNotesRepository.INSTANCE, note);
+            presenter = new UpdateNotePresenter(this, FirestoreNotesRepository.INSTANCE, note);
+            //presenter = new UpdateNotePresenter(this, InMemoryNotesRepository.INSTANCE, note);
         }
 
 

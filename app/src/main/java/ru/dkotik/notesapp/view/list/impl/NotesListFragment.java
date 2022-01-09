@@ -24,6 +24,7 @@ import java.util.List;
 import ru.dkotik.notesapp.R;
 import ru.dkotik.notesapp.model.Note;
 import ru.dkotik.notesapp.presenter.NotesListPresenter;
+import ru.dkotik.notesapp.repository.impl.FirestoreNotesRepository;
 import ru.dkotik.notesapp.repository.impl.InMemoryNotesRepository;
 import ru.dkotik.notesapp.view.actions.AddNoteBottomSheetDialogFragment;
 import ru.dkotik.notesapp.view.actions.AddNotePresenter;
@@ -46,7 +47,7 @@ public class NotesListFragment extends Fragment implements NotesListView {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new NotesListPresenter(this, InMemoryNotesRepository.INSTANCE);
+        presenter = new NotesListPresenter(this, FirestoreNotesRepository.INSTANCE);
         adapter = new NotesAdapter(this);
 
         adapter.setOnClick(new NotesAdapter.OnClick() {

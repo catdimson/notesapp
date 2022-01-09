@@ -14,11 +14,11 @@ import java.util.UUID;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import ru.dkotik.notesapp.R;
 import ru.dkotik.notesapp.model.Note;
 import ru.dkotik.notesapp.repository.Callback;
 import ru.dkotik.notesapp.repository.NotesRepository;
 
+@Deprecated
 public class InMemoryNotesRepository implements NotesRepository {
 
     public static final NotesRepository INSTANCE = new InMemoryNotesRepository();
@@ -92,7 +92,7 @@ public class InMemoryNotesRepository implements NotesRepository {
     }
 
     @Override
-    public void update(String noteId, String title, String description, Callback<Note> callback) {
+    public void update(Note note, String title, String description, Callback<Note> callback) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -108,7 +108,7 @@ public class InMemoryNotesRepository implements NotesRepository {
                         int index = 0;
 
                         for (int i = 0; i < result.size(); i++) {
-                            if (result.get(i).getId().equals(noteId)) {
+                            if (result.get(i).getId().equals(note.getId())) {
                                 index = i;
                                 break;
                             }

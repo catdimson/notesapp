@@ -2,7 +2,6 @@ package ru.dkotik.notesapp.repository;
 
 import java.util.List;
 
-import ru.dkotik.notesapp.repository.Callback;
 import ru.dkotik.notesapp.model.Note;
 
 public interface NotesRepository {
@@ -11,7 +10,7 @@ public interface NotesRepository {
 
     void save(String title, String description, Callback<Note> callback);
 
-    void update(String noteId, String title, String description, Callback<Note> callback);
+    void update(Note note, String title, String description, Callback<Note> callback);
 
     void delete(Note note, Callback<Void> callback);
 

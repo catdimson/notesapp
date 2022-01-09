@@ -4,8 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.StringRes;
 
-import ru.dkotik.notesapp.model.Note;
-
 public interface AddNoteView {
 
     void showProgress();
