@@ -1,20 +1,18 @@
 package ru.dkotik.notesapp.view.about;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import ru.dkotik.notesapp.R;
 import ru.dkotik.notesapp.model.Note;
 import ru.dkotik.notesapp.view.CustomActions;
-import ru.dkotik.notesapp.view.detail.NoteDetailFragment;
 
 public class AboutFragment extends Fragment implements CustomActions {
 
