@@ -1,8 +1,8 @@
-package ru.dkotik.notesapp.repository;
+package ru.dkotik.notesapp.data.repository;
 
 import java.util.List;
 
-import ru.dkotik.notesapp.model.Note;
+import ru.dkotik.notesapp.domain.entity.Note;
 
 public interface NotesRepository {
 

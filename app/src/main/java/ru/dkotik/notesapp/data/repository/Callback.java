@@ -1,4 +1,4 @@
-package ru.dkotik.notesapp.repository;
+package ru.dkotik.notesapp.data.repository;
 
 public interface Callback<T> {
 

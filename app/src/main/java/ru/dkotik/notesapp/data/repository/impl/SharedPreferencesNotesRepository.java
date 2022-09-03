@@ -1,4 +1,4 @@
-package ru.dkotik.notesapp.repository.impl;
+package ru.dkotik.notesapp.data.repository.impl;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -14,9 +14,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
-import ru.dkotik.notesapp.model.Note;
-import ru.dkotik.notesapp.repository.Callback;
-import ru.dkotik.notesapp.repository.NotesRepository;
+import ru.dkotik.notesapp.domain.entity.Note;
+import ru.dkotik.notesapp.data.repository.Callback;
+import ru.dkotik.notesapp.data.repository.NotesRepository;
 
 @Deprecated
 public class SharedPreferencesNotesRepository implements NotesRepository {

@@ -2,7 +2,6 @@ package ru.dkotik.notesapp;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -16,13 +15,13 @@ import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.navigation.NavigationView;
 
-import ru.dkotik.notesapp.model.Note;
-import ru.dkotik.notesapp.view.CustomActions;
-import ru.dkotik.notesapp.view.about.AboutFragment;
-import ru.dkotik.notesapp.view.about.NavDrawerHost;
-import ru.dkotik.notesapp.view.detail.NoteDetailFragment;
-import ru.dkotik.notesapp.view.list.GoOutDialog;
-import ru.dkotik.notesapp.view.list.impl.NotesListFragment;
+import ru.dkotik.notesapp.domain.entity.Note;
+import ru.dkotik.notesapp.ui.CustomActions;
+import ru.dkotik.notesapp.ui.about.AboutFragment;
+import ru.dkotik.notesapp.ui.about.NavDrawerHost;
+import ru.dkotik.notesapp.ui.detail.NoteDetailFragment;
+import ru.dkotik.notesapp.ui.list.GoOutDialog;
+import ru.dkotik.notesapp.ui.list.impl.NotesListFragment;
 
 public class MainActivity extends AppCompatActivity implements NavDrawerHost {
 

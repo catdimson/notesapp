@@ -1,4 +1,4 @@
-package ru.dkotik.notesapp.view.list;
+package ru.dkotik.notesapp.ui.list;
 
 import android.app.Dialog;
 import android.content.DialogInterface;

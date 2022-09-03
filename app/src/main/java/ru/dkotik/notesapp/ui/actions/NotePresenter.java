@@ -1,4 +1,4 @@
-package ru.dkotik.notesapp.view.actions;
+package ru.dkotik.notesapp.ui.actions;
 
 public interface NotePresenter {
 

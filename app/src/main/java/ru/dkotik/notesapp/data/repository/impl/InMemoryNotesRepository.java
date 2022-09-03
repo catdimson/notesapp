@@ -1,4 +1,4 @@
-package ru.dkotik.notesapp.repository.impl;
+package ru.dkotik.notesapp.data.repository.impl;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -14,9 +14,9 @@ import java.util.UUID;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import ru.dkotik.notesapp.model.Note;
-import ru.dkotik.notesapp.repository.Callback;
-import ru.dkotik.notesapp.repository.NotesRepository;
+import ru.dkotik.notesapp.domain.entity.Note;
+import ru.dkotik.notesapp.data.repository.Callback;
+import ru.dkotik.notesapp.data.repository.NotesRepository;
 
 @Deprecated
 public class InMemoryNotesRepository implements NotesRepository {

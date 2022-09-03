@@ -2,10 +2,10 @@ package ru.dkotik.notesapp.presenter;
 
 import java.util.List;
 
-import ru.dkotik.notesapp.model.Note;
-import ru.dkotik.notesapp.repository.Callback;
-import ru.dkotik.notesapp.repository.NotesRepository;
-import ru.dkotik.notesapp.view.list.NotesListView;
+import ru.dkotik.notesapp.domain.entity.Note;
+import ru.dkotik.notesapp.data.repository.Callback;
+import ru.dkotik.notesapp.data.repository.NotesRepository;
+import ru.dkotik.notesapp.ui.list.NotesListView;
 
 public class NotesListPresenter {
 

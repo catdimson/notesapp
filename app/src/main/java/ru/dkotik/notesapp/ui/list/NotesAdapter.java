@@ -1,4 +1,4 @@
-package ru.dkotik.notesapp.view.list;
+package ru.dkotik.notesapp.ui.list;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.List;
 
 import ru.dkotik.notesapp.R;
-import ru.dkotik.notesapp.model.Note;
+import ru.dkotik.notesapp.domain.entity.Note;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHolder> {
 
