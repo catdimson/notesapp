@@ -17,7 +17,7 @@ public class NotesListPresenter {
         this.repository = repository;
     }
 
-    public void requestNotes() {
+    public void getAllNotes() {
         view.showProgress();
 
         repository.getAllNotes(new Callback<List<Note>>() {
@@ -34,7 +34,7 @@ public class NotesListPresenter {
         });
     }
 
-    public void onNoteAdded(Note note) {
+    public void createNote(Note note) {
         view.onNoteAdded(note);
     }
 
@@ -55,7 +55,7 @@ public class NotesListPresenter {
         });
     }
 
-    public void onUpdateAdded(Note note) {
+    public void updateNote(Note note) {
         view.onNoteUpdated(note);
     }
 }

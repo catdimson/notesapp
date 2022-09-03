@@ -86,13 +86,13 @@ public class NotesListFragment extends Fragment implements NotesListView {
             }
         });
 
-        presenter.requestNotes();
+        presenter.getAllNotes();
         getParentFragmentManager().setFragmentResultListener(AddNotePresenter.KEY, getViewLifecycleOwner(), new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 Note note = result.getParcelable(AddNotePresenter.ARG_NOTE);
 
-                presenter.onNoteAdded(note);
+                presenter.createNote(note);
             }
         });
         getParentFragmentManager().setFragmentResultListener(UpdateNotePresenter.KEY, getViewLifecycleOwner(), new FragmentResultListener() {
@@ -100,7 +100,7 @@ public class NotesListFragment extends Fragment implements NotesListView {
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 Note note = result.getParcelable(UpdateNotePresenter.ARG_NOTE);
 
-                presenter.onUpdateAdded(note);
+                presenter.updateNote(note);
             }
         });
     }
