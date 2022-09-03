@@ -1,4 +1,4 @@
-package ru.dkotik.notesapp.view.actions;
+package ru.dkotik.notesapp.ui.actions;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,8 +14,8 @@ import androidx.annotation.Nullable;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import ru.dkotik.notesapp.R;
-import ru.dkotik.notesapp.model.Note;
-import ru.dkotik.notesapp.repository.impl.FirestoreNotesRepository;
+import ru.dkotik.notesapp.domain.entity.Note;
+import ru.dkotik.notesapp.data.repository.impl.FirestoreNotesRepository;
 
 public class AddNoteBottomSheetDialogFragment extends BottomSheetDialogFragment implements AddNoteView {
 

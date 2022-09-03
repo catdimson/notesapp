@@ -1,4 +1,4 @@
-package ru.dkotik.notesapp.view.about;
+package ru.dkotik.notesapp.ui.about;
 
 import androidx.appcompat.widget.Toolbar;
 

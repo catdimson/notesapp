@@ -1,13 +1,7 @@
-package ru.dkotik.notesapp.model;
+package ru.dkotik.notesapp.domain.entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import androidx.annotation.DrawableRes;
-import androidx.annotation.StringRes;
-
-import java.sql.Time;
-import java.util.Date;
 
 public class Note implements Parcelable {
 

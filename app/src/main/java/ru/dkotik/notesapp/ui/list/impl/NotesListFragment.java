@@ -1,4 +1,4 @@
-package ru.dkotik.notesapp.view.list.impl;
+package ru.dkotik.notesapp.ui.list.impl;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,15 +21,14 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import java.util.List;
 
 import ru.dkotik.notesapp.R;
-import ru.dkotik.notesapp.model.Note;
+import ru.dkotik.notesapp.domain.entity.Note;
 import ru.dkotik.notesapp.presenter.NotesListPresenter;
-import ru.dkotik.notesapp.repository.impl.FirestoreNotesRepository;
-import ru.dkotik.notesapp.repository.impl.InMemoryNotesRepository;
-import ru.dkotik.notesapp.view.actions.AddNoteBottomSheetDialogFragment;
-import ru.dkotik.notesapp.view.actions.AddNotePresenter;
-import ru.dkotik.notesapp.view.actions.UpdateNotePresenter;
-import ru.dkotik.notesapp.view.list.NotesAdapter;
-import ru.dkotik.notesapp.view.list.NotesListView;
+import ru.dkotik.notesapp.data.repository.impl.FirestoreNotesRepository;
+import ru.dkotik.notesapp.ui.actions.AddNoteBottomSheetDialogFragment;
+import ru.dkotik.notesapp.ui.actions.AddNotePresenter;
+import ru.dkotik.notesapp.ui.actions.UpdateNotePresenter;
+import ru.dkotik.notesapp.ui.list.NotesAdapter;
+import ru.dkotik.notesapp.ui.list.NotesListView;
 
 public class NotesListFragment extends Fragment implements NotesListView {
 
@@ -88,13 +86,13 @@ public class NotesListFragment extends Fragment implements NotesListView {
             }
         });
 
-        presenter.requestNotes();
+        presenter.getAllNotes();
         getParentFragmentManager().setFragmentResultListener(AddNotePresenter.KEY, getViewLifecycleOwner(), new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 Note note = result.getParcelable(AddNotePresenter.ARG_NOTE);
 
-                presenter.onNoteAdded(note);
+                presenter.createNote(note);
             }
         });
         getParentFragmentManager().setFragmentResultListener(UpdateNotePresenter.KEY, getViewLifecycleOwner(), new FragmentResultListener() {
@@ -102,7 +100,7 @@ public class NotesListFragment extends Fragment implements NotesListView {
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 Note note = result.getParcelable(UpdateNotePresenter.ARG_NOTE);
 
-                presenter.onUpdateAdded(note);
+                presenter.updateNote(note);
             }
         });
     }

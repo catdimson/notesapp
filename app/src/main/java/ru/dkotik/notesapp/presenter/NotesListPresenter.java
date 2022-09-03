@@ -2,10 +2,10 @@ package ru.dkotik.notesapp.presenter;
 
 import java.util.List;
 
-import ru.dkotik.notesapp.model.Note;
-import ru.dkotik.notesapp.repository.Callback;
-import ru.dkotik.notesapp.repository.NotesRepository;
-import ru.dkotik.notesapp.view.list.NotesListView;
+import ru.dkotik.notesapp.domain.entity.Note;
+import ru.dkotik.notesapp.data.repository.Callback;
+import ru.dkotik.notesapp.data.repository.NotesRepository;
+import ru.dkotik.notesapp.ui.list.NotesListView;
 
 public class NotesListPresenter {
 
@@ -17,7 +17,7 @@ public class NotesListPresenter {
         this.repository = repository;
     }
 
-    public void requestNotes() {
+    public void getAllNotes() {
         view.showProgress();
 
         repository.getAllNotes(new Callback<List<Note>>() {
@@ -34,7 +34,7 @@ public class NotesListPresenter {
         });
     }
 
-    public void onNoteAdded(Note note) {
+    public void createNote(Note note) {
         view.onNoteAdded(note);
     }
 
@@ -55,7 +55,7 @@ public class NotesListPresenter {
         });
     }
 
-    public void onUpdateAdded(Note note) {
+    public void updateNote(Note note) {
         view.onNoteUpdated(note);
     }
 }

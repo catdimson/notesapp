@@ -17,7 +17,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:text="Hello World!"
-            android:name="ru.dkotik.notesapp.view.list.impl.NotesListFragment"
+            android:name="ru.dkotik.notesapp.ui.list.impl.NotesListFragment"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

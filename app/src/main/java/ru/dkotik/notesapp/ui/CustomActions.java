@@ -1,4 +1,4 @@
-package ru.dkotik.notesapp.view;
+package ru.dkotik.notesapp.ui;
 
 public interface CustomActions {
 

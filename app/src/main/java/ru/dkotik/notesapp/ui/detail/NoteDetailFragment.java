@@ -1,4 +1,4 @@
-package ru.dkotik.notesapp.view.detail;
+package ru.dkotik.notesapp.ui.detail;
 
 import android.os.Bundle;
 import android.view.View;
@@ -9,10 +9,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import ru.dkotik.notesapp.view.CustomActions;
+import ru.dkotik.notesapp.ui.CustomActions;
 import ru.dkotik.notesapp.R;
-import ru.dkotik.notesapp.model.Note;
-import ru.dkotik.notesapp.view.list.impl.NotesListFragment;
+import ru.dkotik.notesapp.domain.entity.Note;
+import ru.dkotik.notesapp.ui.list.impl.NotesListFragment;
 
 public class NoteDetailFragment extends Fragment implements CustomActions {
 
