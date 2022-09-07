@@ -93,7 +93,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
         void onLongClick(Note note);
     }
 
-    class NoteViewHolder extends RecyclerView.ViewHolder {
+    public class NoteViewHolder extends RecyclerView.ViewHolder {
 
         private TextView title;
 

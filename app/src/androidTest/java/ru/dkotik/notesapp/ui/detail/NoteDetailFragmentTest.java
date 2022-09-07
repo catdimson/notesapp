@@ -48,8 +48,7 @@ public class NoteDetailFragmentTest {
 
     @Test
     public void fragment_testSetArgsWhenCreateFragment() {
-        Matcher matcher = ViewMatchers.withText("Рыба текст 777");
-        ViewAssertion assertion = matches(matcher);
+        ViewAssertion assertion = matches(ViewMatchers.withText("Рыба текст 777"));
         onView(withId(R.id.note_description)).check(assertion);
     }
 
