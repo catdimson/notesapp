@@ -9,9 +9,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import ru.dkotik.notesapp.ui.CustomActions;
 import ru.dkotik.notesapp.R;
 import ru.dkotik.notesapp.domain.entity.Note;
+import ru.dkotik.notesapp.ui.CustomActions;
 import ru.dkotik.notesapp.ui.list.impl.NotesListFragment;
 
 public class NoteDetailFragment extends Fragment implements CustomActions {
@@ -53,8 +53,8 @@ public class NoteDetailFragment extends Fragment implements CustomActions {
         fm = getParentFragmentManager();
 
         fm.setFragmentResultListener(KEY_RESULT, getViewLifecycleOwner(), (requestKey, result) -> {
-                note = result.getParcelable(NotesListFragment.ARG_NOTE);
-                displayDetails(note);
+            note = result.getParcelable(NotesListFragment.ARG_NOTE);
+            displayDetails(note);
         });
     }
 
@@ -63,10 +63,11 @@ public class NoteDetailFragment extends Fragment implements CustomActions {
         super.onSaveInstanceState(outState);
     }
 
-    private void displayDetails(Note note) {
+    // на время тестов, чтобы проверить работу метода
+    public void displayDetails(Note note) {
         if (note != null) {
             noteTitle.setText(note.getTitle());
-            noteDate.setText(note.getTime().toString());
+            noteDate.setText(note.getTime());
             noteDescription.setText(note.getDescription());
         }
     }
