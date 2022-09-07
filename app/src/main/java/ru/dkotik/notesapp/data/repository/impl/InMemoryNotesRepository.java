@@ -5,7 +5,6 @@ import android.os.Looper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -30,19 +29,17 @@ public class InMemoryNotesRepository implements NotesRepository {
 
     private InMemoryNotesRepository() {
         Calendar calendar = Calendar.getInstance();
-        result = new ArrayList<>(
-                Arrays.asList(
-                        new Note(UUID.randomUUID().toString(),"Заголовок 1", timeFormat.format(calendar.getTime()), "Рыба текст 1"),
-                        new Note(UUID.randomUUID().toString(),"Заголовок 2", timeFormat.format(calendar.getTime()), "Рыба текст 2"),
-                        new Note(UUID.randomUUID().toString(),"Заголовок 3", timeFormat.format(calendar.getTime()), "Рыба текст 3"),
-                        new Note(UUID.randomUUID().toString(),"Заголовок 4", timeFormat.format(calendar.getTime()), "Рыба текст 4"),
-                        new Note(UUID.randomUUID().toString(),"Заголовок 5", timeFormat.format(calendar.getTime()), "Рыба текст 5"),
-                        new Note(UUID.randomUUID().toString(),"Заголовок 6", timeFormat.format(calendar.getTime()), "Рыба текст 6"),
-                        new Note(UUID.randomUUID().toString(),"Заголовок 7", timeFormat.format(calendar.getTime()), "Рыба текст 7"),
-                        new Note(UUID.randomUUID().toString(),"Заголовок 8", timeFormat.format(calendar.getTime()), "Рыба текст 8"),
-                        new Note(UUID.randomUUID().toString(),"Заголовок 9", timeFormat.format(calendar.getTime()), "Рыба текст 9")
+        result = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            result.add(
+                new Note(
+                    UUID.randomUUID().toString(),
+                    "Заголовок " + i,
+                    timeFormat.format(calendar.getTime()),
+                    "Рыба текст " + i
                 )
-        );
+            );
+        }
     }
 
     @Override
