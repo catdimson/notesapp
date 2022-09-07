@@ -21,9 +21,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import java.util.List;
 
 import ru.dkotik.notesapp.R;
+import ru.dkotik.notesapp.data.repository.impl.InMemoryNotesRepository;
 import ru.dkotik.notesapp.domain.entity.Note;
 import ru.dkotik.notesapp.presenter.NotesListPresenter;
-import ru.dkotik.notesapp.data.repository.impl.FirestoreNotesRepository;
 import ru.dkotik.notesapp.ui.actions.AddNoteBottomSheetDialogFragment;
 import ru.dkotik.notesapp.ui.actions.AddNotePresenter;
 import ru.dkotik.notesapp.ui.actions.UpdateNotePresenter;
@@ -45,7 +45,7 @@ public class NotesListFragment extends Fragment implements NotesListView {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new NotesListPresenter(this, FirestoreNotesRepository.INSTANCE);
+        presenter = new NotesListPresenter(this, InMemoryNotesRepository.INSTANCE);
         adapter = new NotesAdapter(this);
 
         adapter.setOnClick(new NotesAdapter.OnClick() {
